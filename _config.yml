@@ -4,7 +4,7 @@ title_right   : "viz" # default: ""
 description   : "Visualizing Baseball Hall of Fame Voting"
 keywords      : "baseball, hall-of-fame, dashboard, dataviz, visualization"
 url           : https://deppen8.github.io/bbhof_viz # site url
-baseurl       : "bbhof_viz" # apply repo name like "/myproject" if used under gh-pages branch, else (under master branch) just leave empty/blank
+baseurl       : "/bbhof_viz" # apply repo name like "/myproject" if used under gh-pages branch, else (under master branch) just leave empty/blank
 cover         : "" # image uri like logo/cover image for site seo
 
 google_analytics  : UA-XXXXX-XX
