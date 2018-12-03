@@ -52,4 +52,8 @@ Temporary Items
 .apdisk
 
 # VS Code
-*.vscode
+/.vscode
+*.code-workspace
+
+# Remove jupyter notebook checkpoints
+/.ipynb_checkpoints
