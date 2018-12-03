@@ -1,13 +1,7 @@
-# Thinkspace
+# BBHOFviz
 
-> Thinkspace is just another minimalist Jekyll theme which designed for technical writing blog.
+This is the code that builds [https://deppen8.github.io/bbhof_viz/](https://deppen8.github.io/bbhof_viz/). See the [About](https://deppen8.github.io/bbhof_viz/about) page for more information about the project.
 
-[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![GENERATOR](https://img.shields.io/badge/made_with-jekyll-blue.svg) ![VERSION](https://img.shields.io/badge/current_version-2.5-green.svg) ![TRAVIS-CI](https://travis-ci.org/heiswayi/thinkspace.svg?branch=master)
+<hr>
 
-- **Demo:** https://heiswayi.github.io/thinkspace/
-
-![SCREENSHOT](https://i.imgur.com/1YS078k.png)
-
-## License
-
-[MIT](LICENSE.md)
+This page was built with the [Thinkspace](https://heiswayi.github.io/thinkspace/) template.
