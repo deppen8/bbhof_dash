@@ -1,6 +1,7 @@
 import pandas as pd
 import altair as alt
 alt.renderers.enable('notebook')
+from colors import player_colors
 
 def hof_theme():
     return {
@@ -184,7 +185,6 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
         y = alt.Y('player:N', sort=alt.EncodingSortField(field='votes', op='sum', order='descending'), axis=alt.Axis(title=None)),
         tooltip = alt.Tooltip('sum(votes):Q', title='votes'),
         color=alt.condition(selection, 
-                            # alt.Color('player:N', legend=alt.Legend(title='Player'), scale=colors),
                             alt.Color('player:N', legend=None, scale=colors),
                             alt.value('lightgray'))
     ).properties(
@@ -231,26 +231,6 @@ vote_getters = remove_no_votes(current_ballots)
 cumsums = calculate_cumsum_votes(vote_getters)
 
 vote_getters_cumsums = vote_getters.merge(cumsums.drop(columns=['votes']), how='left', on=['date', 'player'])
-
-player_colors = {
-    'Barry Bonds': '#FD5A1E',  # SF
-    'Roger Clemens': '#BD3039',  # Boston
-    'Roy Halladay': '#006BA6',  # Toronto
-    'Todd Helton': '#8A8D8F',  # Colorado
-    'Andruw Jones': '#CE1141',  # Atlanta
-    'Edgar Martinez': '#005C5C',  # Seattle
-    'Fred McGriff': '#002B73',  # Tampa 
-    'Mike Mussina': '#0C2340',  # NYY
-    'Andy Pettitte': '#0C2340',  # NYY
-    'Manny Ramirez': '#BD3039' ,  # Boston
-    'Mariano Rivera': '#0C2340',  # NYY
-    'Scott Rolen': '#E81828',  # Philadelphia
-    'Curt Schilling': '#A71930',  # Arizona
-    'Sammy Sosa': '#0E3386',  # Chicago Cubs 
-    'Omar Vizquel': '#0C2340',  # Cleveland 
-    'Larry Walker': '#8A8D8F',  # Colorado,
-    'Miguel Tejada': '#EFB21E'  # Oakland
-}
 
 player_names = list(player_colors.keys())
 symbol_colors = list(player_colors.values())
