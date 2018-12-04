@@ -58,3 +58,6 @@ Temporary Items
 # Remove jupyter notebook checkpoints
 .ipynb_checkpoints/
 *.ipynb
+
+# python stuff
+__pycache__/
