@@ -12,6 +12,7 @@ player_colors = {
     'Mariano Rivera': '#0C2340',  # NYY
     'Scott Rolen': '#E81828',  # Philadelphia
     'Curt Schilling': '#A71930',  # Arizona
+    'Gary Sheffield': '#009CA6', # Florida Marlins
     'Sammy Sosa': '#0E3386',  # Chicago Cubs 
     'Omar Vizquel': '#0C2340',  # Cleveland 
     'Larry Walker': '#8A8D8F',  # Colorado,
