@@ -261,3 +261,5 @@ color_scale = alt.Scale(
         )
 
 dashboard = make_plots(vote_getters_cumsums, benchmarks, color_scale)
+
+dashboard.save('_includes/ballot_viz.html')
