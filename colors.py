@@ -16,5 +16,6 @@ player_colors = {
     'Sammy Sosa': '#0E3386',  # Chicago Cubs 
     'Omar Vizquel': '#0C2340',  # Cleveland 
     'Larry Walker': '#8A8D8F',  # Colorado,
-    'Miguel Tejada': '#EFB21E'  # Oakland
+    'Miguel Tejada': '#EFB21E',  # Oakland
+    'Jeff Kent': '#FD5A1E'  # SF
 }
