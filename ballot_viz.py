@@ -193,7 +193,7 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
     )
     
     bottom = alt.Chart().mark_line(point=True).encode(
-        x = alt.X('yearmonthdate(date):T', axis=alt.Axis(title='date')),
+        x = alt.X('monthdate(date):T', axis=alt.Axis(title='date')),
         y = alt.Y('cumulative_votes:Q', axis = alt.Axis(title='cumulative votes')),
         color = alt.Color('player:N', legend=None, scale=colors),
         tooltip = alt.Tooltip('player:N', title='null')
