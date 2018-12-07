@@ -73,7 +73,7 @@ def read_votes(excel_file='data.xlsx', sheet_name='ballots'):
     return ballots
 
 
-def calculate_benchmarks(ballots, expected_total_ballots=412):
+def calculate_benchmarks(ballots, expected_total_ballots=412, expected_pre_announce_ballots=243):
     '''find values for some key vote landmarks
     
     Parameters
@@ -93,12 +93,14 @@ def calculate_benchmarks(ballots, expected_total_ballots=412):
     pacemark = n_ballots * .75
     expected_threshold = expected_total_ballots * .75
     percent_submitted = n_ballots / expected_total_ballots * 100
+    expected_pre_announce_threshold = expected_pre_announce_ballots * .75
 
     return pd.DataFrame({'induction_pace': [pacemark],
                          'expected_threshold': [expected_threshold],
                          'expected_total_ballots': [expected_total_ballots],
                          'percent_submitted': [percent_submitted],
-                         'n_ballots': [n_ballots]
+                         'n_ballots': [n_ballots],
+                         'expected_pre_announce_threshold': [expected_pre_announce_threshold]
                          })
 
 
@@ -213,12 +215,20 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
         tooltip=alt.Tooltip('expected_threshold:Q')
     )
 
+    expected_pre_announce_threshold = alt.Chart(benchmarks_df).mark_rule(color='goldenrod', size=4, strokeDash=[10,6]).encode(
+        x='expected_pre_announce_threshold:Q',
+        tooltip=alt.Tooltip('expected_pre_announce_threshold:Q')
+    )
+
     current_pace_lines = alt.Chart(benchmarks_df).mark_rule(color='orangered').encode(
         y='induction_pace:Q',
         tooltip=alt.Tooltip('induction_pace:Q')
     )
 
-    return alt.vconcat((top + current_pace_bars + expected_threshold), (bottom + current_pace_lines), data=tidy_ballots_df)
+    return alt.vconcat(
+        (top + current_pace_bars + expected_threshold + expected_pre_announce_threshold), 
+        (bottom + current_pace_lines), 
+        data=tidy_ballots_df)
 
 
 df = read_votes()
