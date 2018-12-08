@@ -19,4 +19,6 @@ player_colors = {
     'Miguel Tejada': '#EFB21E',  # Oakland
     'Jeff Kent': '#FD5A1E',  # SF
     'Lance Berkman': '#D3BC8D',  # Houston ('Sand')
+    'Roy Oswalt': '#D3BC8D',  # Houston ('Sand')
+    'Billy Wagner': '#D3BC8D',  # Houston ('Sand')
 }
