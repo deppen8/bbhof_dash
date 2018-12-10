@@ -1,3 +1,10 @@
+# All hex colors from:
+# https://teamcolorcodes.com/mlb-color-codes/
+
+# Used the team I primarily associate with the prime of a player's career.
+# When posible, I tried to use team colors from the time of the player's career.
+# Secondary colors were used when it added diversity to the color palette.
+
 player_colors = {
     'Barry Bonds': '#FD5A1E',  # SF
     'Roger Clemens': '#BD3039',  # Boston
@@ -21,4 +28,17 @@ player_colors = {
     'Lance Berkman': '#D3BC8D',  # Houston ('Sand')
     'Roy Oswalt': '#D3BC8D',  # Houston ('Sand')
     'Billy Wagner': '#D3BC8D',  # Houston ('Sand')
+    'Michael Young': '#C0111F',  # Texas
+    'Rick Ankiel': '#C41E3A',  # St. Louis
+    'Jason Bay': '#FDB827',  # Pittsburgh
+    'Freddy Garcia': '#005C5C',  # Seattle
+    'Jon Garland': '#C4CED4',  # ChiSox
+    'Travis Hafner': '#0C2340',  # Cleveland
+    'Ted Lilly': '#0E3386',  # Chicago Cubs
+    'Derek Lowe': '#BD3039' ,  # Boston
+    'Darren Oliver': '#C0111F',  # Texas
+    'Juan Pierre': '#009CA6', # Florida Marlins
+    'Placido Polanco': '#FA4616',  # Detroit
+    'Vernon Wells': '#006BA6',  # Toronto
+    'Kevin Youkilis': '#BD3039'  # Boston
 }
