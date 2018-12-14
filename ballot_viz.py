@@ -1,6 +1,6 @@
 import pandas as pd
 import altair as alt
-alt.renderers.enable('notebook')
+# alt.renderers.enable('notebook')
 from colors import player_colors
 
 def hof_theme():
@@ -43,7 +43,6 @@ def hof_theme():
 
 alt.themes.register("hof_theme", hof_theme)
 alt.themes.enable("hof_theme")
-
 
 def read_votes(excel_file='data.xlsx', sheet_name='ballots'):
     '''import data from excel file
@@ -161,6 +160,8 @@ def calculate_cumsum_votes(tidy_ballots_df):
     date_sums['cumulative_votes'] = date_cumsums
     return date_sums
 
+def load_colors(year):
+    return player_colors[year]
 
 def make_plots(tidy_ballots_df, benchmarks_df, colors):
     '''create two linked output plots
@@ -180,29 +181,36 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
         An altair chart consisting of a horizontal bar plot and a linked line plot
     '''
 
-    selection = alt.selection_multi(fields=['player'])
+    color_scale = alt.Color('player:N', legend=None, scale=colors)
+    click = alt.selection_multi(fields=['player'])
+    brush = alt.selection_interval(encodings=['x'])
 
     top = alt.Chart().mark_bar().encode(
         x = alt.X('sum(votes):Q', scale=alt.Scale(domain=(0, 412)), axis=alt.Axis(title='total votes')),
         y = alt.Y('player:N', sort=alt.EncodingSortField(field='votes', op='sum', order='descending'), axis=alt.Axis(title=None)),
         tooltip = alt.Tooltip('sum(votes):Q', title='votes'),
-        color=alt.condition(selection, 
-                            alt.Color('player:N', legend=None, scale=colors),
+        color=alt.condition(click, 
+                            color_scale,
                             alt.value('lightgray'))
     ).properties(
-        width=600, height=300,
-        selection=selection
+        width=600, height=350,
+    ).transform_filter(
+        brush
+    ).add_selection(
+        click
     )
     
     bottom = alt.Chart().mark_line(point=True).encode(
-        x = alt.X('monthdate(date):T', axis=alt.Axis(title='date')),
+        x = alt.X('yearmonthdate(date):T', axis=alt.Axis(title='date')),
         y = alt.Y('cumulative_votes:Q', axis = alt.Axis(title='cumulative votes')),
-        color = alt.Color('player:N', legend=None, scale=colors),
+        color = alt.condition(brush, color_scale, alt.value('lightgray')),
         tooltip = alt.Tooltip('player:N', title='null')
     ).properties(
-        width=600, height=200
+        width=600, height=300
     ).transform_filter(
-        selection
+        click
+    ).add_selection(
+        brush
     )
 
     current_pace_bars = alt.Chart(benchmarks_df).mark_rule(color='orangered').encode(
@@ -242,6 +250,7 @@ cumsums = calculate_cumsum_votes(vote_getters)
 
 vote_getters_cumsums = vote_getters.merge(cumsums.drop(columns=['votes']), how='left', on=['date', 'player'])
 
+player_colors = load_colors('2019')
 player_names = list(player_colors.keys())
 symbol_colors = list(player_colors.values())
 
