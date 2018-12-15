@@ -160,6 +160,11 @@ def calculate_cumsum_votes(tidy_ballots_df):
     date_sums['cumulative_votes'] = date_cumsums
     return date_sums
 
+def get_cum_ballots_by_date(tidy_ballots_df):
+    ballots_by_date = tidy_ballots_df.groupby('date')['ballot_id'].nunique().cumsum().reset_index().rename(columns={'ballot_id':'cum_ballots'})
+    ballots_by_date['line75'] = ballots_by_date['cum_ballots'] * .75
+    return ballots_by_date
+
 def load_colors(year):
     return player_colors[year]
 
@@ -183,7 +188,7 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
 
     color_scale = alt.Color('player:N', legend=None, scale=colors)
     click = alt.selection_multi(fields=['player'])
-    brush = alt.selection_interval(encodings=['x'])
+#     brush = alt.selection_interval(encodings=['x'])
 
     top = alt.Chart().mark_bar().encode(
         x = alt.X('sum(votes):Q', scale=alt.Scale(domain=(0, 412)), axis=alt.Axis(title='total votes')),
@@ -194,8 +199,6 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
                             alt.value('lightgray'))
     ).properties(
         width=600, height=350,
-    ).transform_filter(
-        brush
     ).add_selection(
         click
     )
@@ -203,16 +206,22 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
     bottom = alt.Chart().mark_line(point=True).encode(
         x = alt.X('yearmonthdate(date):T', axis=alt.Axis(title='date')),
         y = alt.Y('cumulative_votes:Q', axis = alt.Axis(title='cumulative votes')),
-        color = alt.condition(brush, color_scale, alt.value('lightgray')),
+        color = alt.Color('player:N', legend=None, scale=colors),
         tooltip = alt.Tooltip('player:N', title='null')
     ).properties(
         width=600, height=300
     ).transform_filter(
         click
-    ).add_selection(
-        brush
+    ).interactive()
+    
+    line75_df = get_cum_ballots_by_date(tidy_ballots_df)
+    line75 = alt.Chart(line75_df).mark_line(point=True, strokeDash=[4,4]).encode(
+        x = alt.X('yearmonthdate(date):T'),
+        y = alt.Y('line75:Q'),
+        color = alt.value('gray'),
+        tooltip = alt.Tooltip("line75:Q")
     )
-
+    
     current_pace_bars = alt.Chart(benchmarks_df).mark_rule(color='orangered').encode(
         x='induction_pace:Q',
         tooltip=alt.Tooltip('induction_pace:Q')
@@ -235,7 +244,7 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
 
     return alt.vconcat(
         (top + current_pace_bars + expected_threshold + expected_pre_announce_threshold), 
-        (bottom + current_pace_lines), 
+        (bottom + current_pace_lines + line75), 
         data=tidy_ballots_df)
 
 
@@ -250,12 +259,12 @@ cumsums = calculate_cumsum_votes(vote_getters)
 
 vote_getters_cumsums = vote_getters.merge(cumsums.drop(columns=['votes']), how='left', on=['date', 'player'])
 
-player_colors = load_colors('2019')
-player_names = list(player_colors.keys())
-symbol_colors = list(player_colors.values())
+p_colors = load_colors('2019')
+p_names = list(p_colors.keys())
+symbol_colors = list(p_colors.values())
 
 color_scale = alt.Scale(
-            domain=player_names,
+            domain=p_names,
             range=symbol_colors
         )
 
