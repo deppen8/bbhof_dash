@@ -232,10 +232,10 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
         tooltip=alt.Tooltip('expected_threshold:Q')
     )
 
-    expected_pre_announce_threshold = alt.Chart(benchmarks_df).mark_rule(color='goldenrod', size=4, strokeDash=[10,6]).encode(
-        x='expected_pre_announce_threshold:Q',
-        tooltip=alt.Tooltip('expected_pre_announce_threshold:Q')
-    )
+    # expected_pre_announce_threshold = alt.Chart(benchmarks_df).mark_rule(color='goldenrod', size=4, strokeDash=[10,6]).encode(
+    #     x='expected_pre_announce_threshold:Q',
+    #     tooltip=alt.Tooltip('expected_pre_announce_threshold:Q')
+    # )
 
     current_pace_lines = alt.Chart(benchmarks_df).mark_rule(color='orangered').encode(
         y='induction_pace:Q',
@@ -243,7 +243,11 @@ def make_plots(tidy_ballots_df, benchmarks_df, colors):
     )
 
     return alt.vconcat(
-        (top + current_pace_bars + expected_threshold + expected_pre_announce_threshold), 
+        (top + 
+        current_pace_bars + 
+        expected_threshold #+ 
+        #expected_pre_announce_threshold
+        ), 
         (bottom + current_pace_lines + line75), 
         data=tidy_ballots_df)
 
